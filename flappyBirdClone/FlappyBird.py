@@ -33,7 +33,7 @@ class Passaro:
         self.altura = self.y
         self.tempo = 0
         self.contagem_img = 0
-        self.img = imgs[0]
+        self.img = self.imgs[0]
 
     def pular(self):
         self.velocidade = -10.5
@@ -61,8 +61,36 @@ class Passaro:
             if self.angulo > -90:
                 self.angulo -= self.velocidade_rotacao
 
+    def desenhar(self, tela):
+        # definir a imagem do passaro a ser utilizada
+        self.contagem_img += 1
 
+        if self.contagem_img < self.tempo_animacao:
+            self.img = self.imgs[0]
+        elif self.contagem_img < self.tempo_animacao*2:
+            self.img < self.imgs[1]
+        elif self.contagem_img < self.tempo_animacao*3:
+            self.img = self.imgs[2]
+        elif self.contagem_img < self.tempo_animacao*4:
+            self.img = self.imgs[1]
+        elif self.contagem_img >= self.tempo_animacao*4 + 1:
+            self.img = self.imgs[0]
+            self.contagem_img = 0
 
+        # se o pássaro cair, não bater asa
+        if self.angulo <= -80:
+            self.img = self.imgs[1]
+            self.contagem_img = self.tempo_animacao*2
+
+        # desenhar a imagem
+        img_rotacionada = pygame.transform.rotate(self.img, self.angulo)
+        pos_centro_img = self.img.get_rect(topleft=(self.x, self.y)).center
+        retangulo = img_rotacionada.get_rect(center=pos_centro_img)
+        tela.blit(img_rotacionada, retangulo.topleft)
+
+    def get_mask(self):
+        pygame.mask.from_surface(self.img)
+        
 class Cano:
     pass
 
