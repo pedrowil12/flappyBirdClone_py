@@ -92,7 +92,22 @@ class Passaro:
         pygame.mask.from_surface(self.img)
         
 class Cano:
-    pass
+    distancia = 200
+    velocidade = 5
+
+    def __int__(self, x):
+        self.x = x
+        self.altura = 0
+        self.pos_topo = 0
+        self.pos_base = 0
+        self.cano_topo = pygame.transform.flip(img_cano, False, True)
+        self.cano_base = img_cano
+        self.passou = False
+        self.definir_altura()
+    def definir_altura(self):
+        self.altura = random.randrange(50, 450)
+        self.pos_base = self.altura - self.cano_topo.get_height()
+        self.pos_base = self.altura + self.distancia
 
 class Chao:
     pass
