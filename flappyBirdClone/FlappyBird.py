@@ -109,5 +109,29 @@ class Cano:
         self.pos_base = self.altura - self.cano_topo.get_height()
         self.pos_base = self.altura + self.distancia
 
+    def mover(self):
+        self.x -= self.velocidade
+
+    def desenhar(self, tela):
+        tela.blit(self.cano_topo, (self.x, self.pos_topo))
+        tela.blit(self.cano_base, (self.x, self.pos_base))
+
+    def colidir(self, passaro):
+        passaro_mask - passaro.get_mask()
+        topo_mask = pygame.mask.from_surface(self.cano_topo)
+        base_mask = pygame.mask.from_surface(self.cano_base)
+
+        distancia_topo = (self.x - passaro.x, self.pos_topo - round(passaro.y))
+        distancia_base = (self.x - passaro.x, self.pos_base - round(passaro.y))
+
+        topo_ponto = passaro.mask.overlap(topo_mask, distancia_topo)
+        base_ponto = passaro.mask.overlap(base_mask, distancia_base)
+
+        if base_ponto or topo_ponto:
+            return True
+        else:
+            return False
+
+
 class Chao:
     pass
