@@ -134,4 +134,35 @@ class Cano:
 
 
 class Chao:
-    pass
+    velocidade = 5
+    largura = img_chao.get_width()
+    imagem = img_cano
+
+    def __int__(self, y):
+        self.y = y
+        self.x1 = 0
+        self.x2 = self.largura
+
+    def mover(self):
+        self.x1 -= self.velocidade
+        self.x2 -= self.velocidade
+
+        if self.x1 + self.largura < 0:
+            self.x1 = self.x1 + self.largura
+        if self.x2 + self.largura < 0:
+            self.x2 = self.x2 + self.largura
+
+    def desenhar(self, tela):
+        tela.blit(self.imagem, (self.x1, self.y))
+        tela.blit(self.imagem, (self.x2, self.y))
+
+def desenhar_tela(tela, passaros, canos, chao, pontos):
+    tela.blit(img_fundo, (0,0))
+    for passaro in passaros:
+        passaro.desenhar(tela)
+    for cano in canos:
+        cano.desenhar(tela)
+    texto = fonte_pontos.render(f"Pontuação: {pontos}", 1, (255,255,255))
+    tela.blit(texto, (tela_largura - 10 - texto.get_width(), 10))
+    chao.desenhar(tela)
+    pygame.display.update()
